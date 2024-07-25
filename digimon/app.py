@@ -16,7 +16,7 @@ def search():
         if digimon['name'] == nome_digimon_usuario:
             print(f"Digimon encontrado: {digimon}")
             return render_template('index.html', digimon=digimon)
-    print("Digimon não encontrado.")
+    print("Digimon não foi encontrado.")
     return render_template('index.html', error="Digimon não encontrado, tente novamente.")
 
 if __name__ == "__main__":
