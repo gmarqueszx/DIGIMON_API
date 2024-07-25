@@ -1,25 +1,23 @@
+from flask import Flask, render_template, request
 from api_digimon import dados_digimon
-import time
 
+app = Flask(__name__)
 
-print('DigimonDex\n')
+@app.route('/')
+def index():
+    print("Carregando a página inicial...")
+    return render_template('index.html')
 
-print('1. Procurar Digimon')
-print('2. Sair\n')
+@app.route('/search', methods=['POST'])
+def search():
+    nome_digimon_usuario = request.form['digimon_name'].capitalize()
+    print(f"Procurando por: {nome_digimon_usuario}")
+    for digimon in dados_digimon:
+        if digimon['name'] == nome_digimon_usuario:
+            print(f"Digimon encontrado: {digimon}")
+            return render_template('index.html', digimon=digimon)
+    print("Digimon não encontrado.")
+    return render_template('index.html', error="Digimon não encontrado, tente novamente.")
 
-while True:
-    opcao_escolhida = input('Escolha a opção desejada: ')
-    if opcao_escolhida == '1':
-        nome_digimon_usuario = input("Digite o nome do Digimon: ")
-        
-        if nome_digimon_usuario in dados_digimon:
-                digimon = dados_digimon[nome_digimon_usuario]
-                print(f"Nome: {nome_digimon_usuario}")
-                print(f"Nível: {digimon['level']}")
-        else:
-                print("Digimon não encontrado, tente novamente.")
-                time.sleep(3)
-    else:
-        print('Finalizando programa...')
-        time.sleep(3)
-        break
+if __name__ == "__main__":
+    app.run(debug=True)

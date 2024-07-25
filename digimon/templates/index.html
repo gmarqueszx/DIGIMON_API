@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigimonDex</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <h1>DigimonDex</h1>
+    <form method="POST" action="/search">
+        <input type="text" name="digimon_name" placeholder="Digite o nome do Digimon" required>
+        <button type="submit">Procurar</button>
+    </form>
+
+    {% if digimon %}
+        <div>
+            <h2>{{ digimon.name }}</h2>
+            <img src="{{ digimon.img }}" alt="{{ digimon.name }}">
+            <p>Nível: {{ digimon.level }}</p>
+        </div>
+    {% elif error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <p>Nenhum resultado para exibir.</p>
+    {% endif %}
+</body>
+</html>
+
